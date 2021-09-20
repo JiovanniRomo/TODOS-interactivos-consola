@@ -2,9 +2,9 @@ import { v4 } from "uuid";
 
 class Tarea {
     public id: string;
-    private desc: string;
-    private completado: boolean;
-    private completadoEn: Date | null;
+    public desc: string;
+    public completado: boolean;
+    public completadoEn: Date | null;
 
     constructor(desc: string) {
         this.id = v4();

@@ -33,7 +33,13 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
                 tareas.crearTarea(desc);
                 break;
             case "2":
-                console.log(tareas.listado);
+                tareas.listadoCompleto();
+                break;
+            case '3':
+                tareas.listarPendientes();
+                break;
+            case '4':
+                tareas.listarPendientes(false);
                 break;
         }
         (0, guardarArchivo_1.guardarDB)(tareas.listado);

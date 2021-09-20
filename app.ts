@@ -13,7 +13,6 @@ const main = async () => {
     const tareasDB = leerDB();
 
     if (tareasDB) {
-        // TODO: cargarTareas
         tareas.cargarTareas(tareasDB);
     }
 
@@ -25,16 +24,29 @@ const main = async () => {
 
         switch (opt) {
             case "1":
+                //Crear una nueva tarea - Solicitar una description al user
                 const desc = await leerInput("Description:");
+
+                //Crear una nueva tarea
                 tareas.crearTarea(desc);
                 break;
 
             case "2":
-                console.log(tareas.listado);
+                //Listar todas las tareas
+                tareas.listadoCompleto();
+                break;
+
+            case '3':
+                //Listar tareas completadas
+                tareas.listarPendientes();
+                break;
+            
+            case '4':
+                tareas.listarPendientes(false);
                 break;
         }
 
-        guardarDB(tareas.listado)
+        guardarDB(tareas.listado);
 
         await pausa();
     } while (opt !== "0");
