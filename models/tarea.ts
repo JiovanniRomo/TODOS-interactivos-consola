@@ -4,7 +4,7 @@ class Tarea {
     public id: string;
     public desc: string;
     public completado: boolean;
-    public completadoEn: Date | null;
+    public completadoEn: null | string;
 
     constructor(desc: string) {
         this.id = v4();

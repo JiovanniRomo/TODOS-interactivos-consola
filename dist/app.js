@@ -41,6 +41,20 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             case '4':
                 tareas.listarPendientes(false);
                 break;
+            case '5':
+                const ids = yield (0, inquirer_1.mostrarListadoCheckList)(tareas.listado);
+                tareas.toggleCompletadas(ids);
+                break;
+            case '6':
+                const id = yield (0, inquirer_1.listadoTareasBorrar)(tareas.listado);
+                if (id !== '0') {
+                    const ok = yield (0, inquirer_1.confirmar)('Esta seguro de ejecutar esta accion?');
+                    if (ok) {
+                        tareas.borrarTarea(id);
+                        console.log('Tarea borrada');
+                    }
+                }
+                break;
         }
         (0, guardarArchivo_1.guardarDB)(tareas.listado);
         yield (0, inquirer_1.pausa)();

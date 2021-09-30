@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.leerInput = exports.pausa = exports.inquirerMenu = void 0;
+exports.mostrarListadoCheckList = exports.confirmar = exports.listadoTareasBorrar = exports.leerInput = exports.pausa = exports.inquirerMenu = void 0;
 const inquirer_1 = __importDefault(require("inquirer"));
 const colors_1 = __importDefault(require("colors"));
 const menuOpts = [
@@ -91,4 +91,62 @@ const leerInput = (message) => __awaiter(void 0, void 0, void 0, function* () {
     return desc;
 });
 exports.leerInput = leerInput;
+const listadoTareasBorrar = (tareas) => __awaiter(void 0, void 0, void 0, function* () {
+    let choices = tareas.map((tarea, i) => {
+        const index = `${i + 1}`.green;
+        return {
+            value: tarea.id,
+            name: `${index} ${tarea.desc}`,
+        };
+    });
+    const salirMenu = {
+        value: "0",
+        name: "0.".green + " Cancelar",
+    };
+    choices = [salirMenu, ...choices];
+    const preguntas = [
+        {
+            type: "list",
+            name: "id",
+            message: "Borrar",
+            choices,
+        },
+    ];
+    const { id } = yield inquirer_1.default.prompt(preguntas);
+    return id;
+});
+exports.listadoTareasBorrar = listadoTareasBorrar;
+const confirmar = (message) => __awaiter(void 0, void 0, void 0, function* () {
+    const question = [
+        {
+            type: "confirm",
+            name: "ok",
+            message,
+        },
+    ];
+    const { ok } = yield inquirer_1.default.prompt(question);
+    return ok;
+});
+exports.confirmar = confirmar;
+const mostrarListadoCheckList = (tareas) => __awaiter(void 0, void 0, void 0, function* () {
+    const choices = tareas.map((tarea, i) => {
+        const idx = `${i + 1}.`.green;
+        return {
+            value: tarea.id,
+            name: `${idx} ${tarea.desc}`,
+            checked: tarea.completadoEn ? true : false,
+        };
+    });
+    const pregunta = [
+        {
+            type: "checkbox",
+            name: "ids",
+            message: "Selecciones",
+            choices,
+        },
+    ];
+    const { ids } = yield inquirer_1.default.prompt(pregunta);
+    return ids;
+});
+exports.mostrarListadoCheckList = mostrarListadoCheckList;
 //# sourceMappingURL=inquirer.js.map

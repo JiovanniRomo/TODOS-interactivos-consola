@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const tarea_1 = __importDefault(require("./tarea"));
-require("colors");
+const colors_1 = __importDefault(require("colors"));
 class Tareas {
     constructor() {
         this.listado = [];
@@ -12,6 +12,13 @@ class Tareas {
     crearTarea(desc) {
         const tarea = new tarea_1.default(desc);
         this.listado = [...this.listado, tarea];
+    }
+    borrarTarea(id) {
+        this.listado.forEach(tarea => {
+            if (tarea.id === id) {
+                this.listado = this.listado.filter(tarea => tarea.id !== id);
+            }
+        });
     }
     cargarTareas(tareas) {
         tareas.forEach((tareaArr) => {
@@ -36,7 +43,7 @@ class Tareas {
             if (completadas) {
                 if (completadoEn) {
                     contador += 1;
-                    console.log(`${contador + '.'.green} ${desc} :: ${completadoEn}`);
+                    console.log(`${contador + '.'.green} ${desc} :: ${colors_1.default.green(completadoEn)}`);
                 }
             }
             else {
@@ -44,6 +51,20 @@ class Tareas {
                     contador += 1;
                     console.log(`${contador + '.'.green} ${desc} :: ${estado}`);
                 }
+            }
+        });
+    }
+    toggleCompletadas(ids) {
+        ids.forEach(id => {
+            const tarea = this.listado.filter(tarea => tarea.id === id);
+            if (!tarea[0].completadoEn) {
+                tarea[0].completadoEn = new Date().toISOString();
+            }
+        });
+        this.listado.forEach(tarea => {
+            if (!ids.includes(tarea.id)) {
+                const tareaCambiada = this.listado.filter(tareaIterada => tareaIterada.id === tarea.id);
+                tareaCambiada[0].completadoEn = null;
             }
         });
     }

@@ -1,5 +1,5 @@
 import Tarea from "./tarea";
-import "colors";
+import colors from "colors";
 
 class Tareas {
     public listado: Tarea[];
@@ -14,6 +14,14 @@ class Tareas {
 
         //Y despues la agregamos al listado
         this.listado = [...this.listado, tarea];
+    }
+
+    public borrarTarea( id: string ) {
+        this.listado.forEach( tarea => {
+            if(tarea.id === id) {
+                this.listado = this.listado.filter(tarea => tarea.id !== id);
+            }
+        })
     }
 
     public cargarTareas(tareas: Tarea[]) {
@@ -35,7 +43,7 @@ class Tareas {
 
     public listarPendientes( completadas = true ) {
         console.log("\n");
-        let contador: number = 0;
+        let contador = 0;
 
         this.listado.forEach( tarea => {
             const { desc, completadoEn } = tarea;
@@ -44,7 +52,7 @@ class Tareas {
             if(completadas) {
                 if(completadoEn) {
                     contador += 1;
-                    console.log(`${contador + '.'.green} ${desc} :: ${completadoEn}`);
+                    console.log(`${contador + '.'.green} ${desc} :: ${colors.green(completadoEn)}`);
                 }
             } else {
                 if(!completadoEn) {
@@ -52,8 +60,23 @@ class Tareas {
                     console.log(`${contador + '.'.green} ${desc} :: ${estado}`);
                 }
             }
-
         });
+    }
+
+    public toggleCompletadas(ids: string[]) {
+        ids.forEach( id => {
+            const tarea = this.listado.filter(tarea => tarea.id === id);
+            if(!tarea[0].completadoEn) {
+                tarea[0].completadoEn = new Date().toISOString();
+            }
+        });
+
+        this.listado.forEach(tarea => {
+            if(!ids.includes(tarea.id)){
+                const tareaCambiada = this.listado.filter( tareaIterada => tareaIterada.id === tarea.id);
+                tareaCambiada[0].completadoEn = null;
+            }
+        })
     }
 }
 
